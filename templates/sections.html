@@ -14,20 +14,29 @@
             {% for s in sections %}
             <article class="section-card section-card-full">
                 <div class="card-image img-{{ s.image_key }}"></div>
+
                 <div class="card-body">
                     <h3>{{ s.title }}</h3>
+
                     <p>{{ s.description }}</p>
+
                     <ul class="card-meta">
                         <li><strong>Расписание:</strong> {{ s.schedule }}</li>
                         <li><strong>Тренер:</strong> {{ s.trainer }}</li>
                         <li><strong>Возраст:</strong> {{ s.age_group }}</li>
                         <li class="price">{{ s.price }}</li>
                     </ul>
-                    <a href="/register?section_id={{ s.id }}" class="btn btn-primary btn-sm">Записаться в секцию</a>
+
+                    <a href="/register?section_id={{ s.id }}"
+                       class="btn btn-primary btn-sm">
+                        Записаться в секцию
+                    </a>
                 </div>
             </article>
             {% else %}
-            <p class="empty-msg">Секции пока не добавлены. Запустите приложение с подключённой базой данных.</p>
+            <p class="empty-msg">
+                Секции пока не добавлены. Запустите приложение с подключённой базой данных.
+            </p>
             {% endfor %}
         </div>
     </div>
