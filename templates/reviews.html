@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>Отзывы</h1>
+        <p>Мнения учеников и родителей о занятиях в центре</p>
+    </div>
+</section>
+
+{% if success %}
+<div class="container"><p class="alert alert-success">Спасибо! Ваш отзыв опубликован.</p></div>
+{% endif %}
+
+<section class="section">
+    <div class="container layout-split">
+        <div>
+            <h2 class="section-title">Оставить отзыв</h2>
+            <form class="form-card" method="post" action="/reviews">
+                <label>Имя <input type="text" name="author_name" required maxlength="120"></label>
+                <label>Секция (необязательно)
+                    <select name="section_title">
+                        <option value="">— не указано —</option>
+                        {% for s in sections %}
+                        <option value="{{ s.title }}">{{ s.title }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label>Оценка
+                    <select name="rating" required>
+                        <option value="5">5 — отлично</option>
+                        <option value="4">4</option>
+                        <option value="3">3</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+                    </select>
+                </label>
+                <label>Текст отзыва <textarea name="text" rows="4" required maxlength="2000"></textarea></label>
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+        </div>
+        <div>
+            <h2 class="section-title">Все отзывы</h2>
+            {% if reviews %}
+            <div class="reviews-list">
+                {% for r in reviews %}
+                <blockquote class="review-card">
+                    <div class="stars">{% for i in range(r.rating) %}★{% endfor %}</div>
+                    <p>{{ r.text }}</p>
+                    <footer>
+                        <strong>{{ r.author_name }}</strong>
+                        {% if r.section_title %} · {{ r.section_title }}{% endif %}
+                        <span class="review-date">{{ r.created_at }}</span>
+                    </footer>
+                </blockquote>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="empty-msg">Пока нет отзывов. Будьте первым!</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

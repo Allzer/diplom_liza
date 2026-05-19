@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>Онлайн-запись в секцию</h1>
+        <p>Заполните форму — администратор свяжется с вами для подтверждения</p>
+    </div>
+</section>
+
+{% if success %}
+<div class="container"><p class="alert alert-success">Заявка принята! Мы свяжемся с вами в ближайшее время.</p></div>
+{% elif error %}
+<div class="container"><p class="alert alert-error">Не удалось отправить заявку. Проверьте выбранную секцию.</p></div>
+{% endif %}
+
+<section class="section">
+    <div class="container form-page">
+        <form class="form-card" method="post" action="/register">
+            <label>Секция *
+                <select name="section_id" required>
+                    <option value="">— выберите секцию —</option>
+                    {% for s in sections %}
+                    <option value="{{ s.id }}" {% if selected_section_id == s.id %}selected{% endif %}>{{ s.title }} ({{ s.schedule }})</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <div class="form-row">
+                <label>Фамилия * <input type="text" name="last_name" required></label>
+                <label>Имя * <input type="text" name="first_name" required></label>
+            </div>
+            <label>Отчество <input type="text" name="patronymic"></label>
+            <div class="form-row">
+                <label>Телефон * <input type="tel" name="phone_number" required placeholder="+7 (___) ___-__-__"></label>
+                <label>Email <input type="email" name="email"></label>
+            </div>
+            <label>Дата рождения * <input type="date" name="birth_date" required></label>
+            <label>Комментарий <textarea name="comment" rows="3" placeholder="Пожелания по расписанию"></textarea></label>
+            <button type="submit" class="btn btn-primary btn-lg">Отправить заявку</button>
+        </form>
+        <aside class="form-aside">
+            <h3>Как проходит запись</h3>
+            <ol>
+                <li>Выберите секцию и заполните контактные данные.</li>
+                <li>Заявка сохраняется в системе центра.</li>
+                <li>Администратор звонит для подтверждения и оплаты.</li>
+            </ol>
+        </aside>
+    </div>
+</section>
+{% endblock %}

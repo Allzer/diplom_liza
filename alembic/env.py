@@ -13,7 +13,12 @@ from dotenv import load_dotenv
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
 
 from database import Base
-from src.models.models_for_courses import __all__
+from src.models.models_for_courses import UsersModel  # noqa: F401
+from src.models.sections import (  # noqa: F401
+    ReviewModel,
+    SectionRegistrationModel,
+    SportSectionModel,
+)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

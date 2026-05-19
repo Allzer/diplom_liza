@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>Контакты</h1>
+        <p>Свяжитесь с администрацией центра</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container contacts-grid">
+        <div class="contact-card">
+            <h3>Адрес</h3>
+            <p>г. Москва, ул. Спортивная, д. 12<br>м. «Спортивная», 5 мин пешком</p>
+        </div>
+        <div class="contact-card">
+            <h3>Телефон</h3>
+            <p><a href="tel:+74951234567">+7 (495) 123-45-67</a></p>
+        </div>
+        <div class="contact-card">
+            <h3>Email</h3>
+            <p><a href="mailto:info@dinamika-cfp.ru">info@dinamika-cfp.ru</a></p>
+        </div>
+        <div class="contact-card">
+            <h3>Режим работы</h3>
+            <p>Пн–Сб: 07:00–22:00<br>Вс: 09:00–20:00</p>
+        </div>
+    </div>
+    <div class="container map-placeholder" aria-label="Карта проезда">
+        <p>Карта проезда (интеграция с картографическим сервисом — в перспективе развития)</p>
+    </div>
+</section>
+{% endblock %}

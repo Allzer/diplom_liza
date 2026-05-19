@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>Галерея</h1>
+        <p>Фото- и видеоматериалы тренировочного процесса</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="gallery-grid">
+            {% for item in gallery_items %}
+            <figure class="gallery-item">
+                <div class="gallery-image img-{{ item.image_key }}" role="img" aria-label="{{ item.title }}"></div>
+                <figcaption>
+                    <span class="gallery-category">{{ item.category }}</span>
+                    <h3>{{ item.title }}</h3>
+                </figcaption>
+            </figure>
+            {% endfor %}
+        </div>
+        <p class="gallery-note">Материалы демонстрируют формат занятий в центре. Для полноценного видеоархива предусмотрено расширение функциональности в следующих версиях.</p>
+    </div>
+</section>
+{% endblock %}

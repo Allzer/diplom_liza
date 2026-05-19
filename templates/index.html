@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <p class="hero-label">Центр физической подготовки</p>
+        <h1>Сила, выносливость и уверенность в каждом движении</h1>
+        <p class="hero-text">Профессиональные тренеры, современный зал и программы для детей и взрослых. Запишитесь в секцию онлайн за пару минут.</p>
+        <div class="hero-actions">
+            <a href="/register" class="btn btn-primary">Записаться на занятие</a>
+            <a href="/sections" class="btn btn-outline">Смотреть секции</a>
+        </div>
+    </div>
+    <div class="hero-stats">
+        <div><strong>12+</strong><span>лет опыта</span></div>
+        <div><strong>5</strong><span>направлений</span></div>
+        <div><strong>800+</strong><span>учеников</span></div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Почему выбирают нас</h2>
+        <div class="features-grid">
+            <article class="feature-card">
+                <span class="feature-icon">🏋️</span>
+                <h3>Современный зал</h3>
+                <p>Оборудование для ОФП, силовой и функциональной подготовки под контролем тренера.</p>
+            </article>
+            <article class="feature-card">
+                <span class="feature-icon">👨‍🏫</span>
+                <h3>Квалифицированные тренеры</h3>
+                <p>Индивидуальный подход, безопасная техника и постепенное увеличение нагрузки.</p>
+            </article>
+            <article class="feature-card">
+                <span class="feature-icon">📱</span>
+                <h3>Онлайн-запись</h3>
+                <p>Выберите секцию и оставьте заявку на сайте — администратор свяжется с вами.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+{% if sections %}
+<section class="section section-alt">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Спортивные секции</h2>
+            <a href="/sections" class="link-more">Все секции →</a>
+        </div>
+        <div class="cards-grid">
+            {% for s in sections %}
+            <article class="section-card">
+                <div class="card-image img-{{ s.image_key }}"></div>
+                <div class="card-body">
+                    <h3>{{ s.title }}</h3>
+                    <p>{{ s.description[:120] }}{% if s.description|length > 120 %}…{% endif %}</p>
+                    <ul class="card-meta">
+                        <li>{{ s.schedule }}</li>
+                        <li>{{ s.age_group }}</li>
+                        <li class="price">{{ s.price }}</li>
+                    </ul>
+                    <a href="/register?section_id={{ s.id }}" class="btn btn-sm">Записаться</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if reviews %}
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Отзывы</h2>
+            <a href="/reviews" class="link-more">Все отзывы →</a>
+        </div>
+        <div class="reviews-grid">
+            {% for r in reviews %}
+            <blockquote class="review-card">
+                <div class="stars" aria-label="Оценка {{ r.rating }} из 5">{% for i in range(r.rating) %}★{% endfor %}</div>
+                <p>{{ r.text }}</p>
+                <footer>— {{ r.author_name }}{% if r.section_title %}, {{ r.section_title }}{% endif %}</footer>
+            </blockquote>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="cta-banner">
+    <div class="container cta-inner">
+        <h2>Готовы начать тренировки?</h2>
+        <p>Заполните форму записи — мы подберём подходящую секцию и расписание.</p>
+        <a href="/register" class="btn btn-primary btn-lg">Онлайн-регистрация</a>
+    </div>
+</section>
+{% endblock %}
