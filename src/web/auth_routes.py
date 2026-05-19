@@ -1,9 +1,10 @@
 from datetime import datetime
+from typing import Annotated
 from uuid import uuid4
 
 from fastapi import APIRouter, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
-from pydantic import ValidationError
+from pydantic import EmailStr, ValidationError
 from sqlalchemy import select
 
 from database import SessionDep
@@ -138,11 +139,11 @@ async def signup_page(request: Request, session: SessionDep):
 async def signup_submit(
     request: Request,
     session: SessionDep,
+    email: Annotated[EmailStr, Form()],
     last_name: str = Form(...),
     first_name: str = Form(...),
     patronymic: str = Form(''),
     phone_number: str = Form(...),
-    email: str = Form(''),
     birth_date: str = Form(...),
     password: str = Form(...),
     password_confirm: str = Form(...),
