@@ -11,31 +11,39 @@
 {% if success %}
 <div class="container"><p class="alert alert-success">Спасибо! Ваш отзыв опубликован.</p></div>
 {% endif %}
+{% if form_error %}
+<div class="container"><p class="alert alert-error">{{ form_error }}</p></div>
+{% endif %}
 
 <section class="section">
     <div class="container layout-split">
         <div>
             <h2 class="section-title">Оставить отзыв</h2>
             <form class="form-card" method="post" action="/reviews">
-                <label>Имя <input type="text" name="author_name" required maxlength="120"></label>
+                <label>Имя *
+                    <input type="text" name="author_name" required minlength="2" maxlength="120" value="{{ form_values.author_name }}">
+                    {% if field_errors.author_name %}<span class="field-error">{{ field_errors.author_name }}</span>{% endif %}
+                </label>
                 <label>Секция (необязательно)
                     <select name="section_title">
                         <option value="">— не указано —</option>
                         {% for s in sections %}
-                        <option value="{{ s.title }}">{{ s.title }}</option>
+                        <option value="{{ s.title }}" {% if form_values.section_title == s.title %}selected{% endif %}>{{ s.title }}</option>
                         {% endfor %}
                     </select>
                 </label>
-                <label>Оценка
+                <label>Оценка *
                     <select name="rating" required>
-                        <option value="5">5 — отлично</option>
-                        <option value="4">4</option>
-                        <option value="3">3</option>
-                        <option value="2">2</option>
-                        <option value="1">1</option>
+                        {% for n in [5,4,3,2,1] %}
+                        <option value="{{ n }}" {% if form_values.rating|string == n|string %}selected{% endif %}>{{ n }}</option>
+                        {% endfor %}
                     </select>
+                    {% if field_errors.rating %}<span class="field-error">{{ field_errors.rating }}</span>{% endif %}
                 </label>
-                <label>Текст отзыва <textarea name="text" rows="4" required maxlength="2000"></textarea></label>
+                <label>Текст отзыва *
+                    <textarea name="text" rows="4" required minlength="10" maxlength="2000">{{ form_values.text }}</textarea>
+                    {% if field_errors.text %}<span class="field-error">{{ field_errors.text }}</span>{% endif %}
+                </label>
                 <button type="submit" class="btn btn-primary">Отправить</button>
             </form>
         </div>

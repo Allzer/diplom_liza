@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>Регистрация</h1>
+        <p>Создайте аккаунт для записи в секции и доступа к профилю</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container auth-page">
+        {% if form_error %}
+        <p class="alert alert-error">{{ form_error }}</p>
+        {% endif %}
+        <form class="form-card form-card-wide" method="post" action="/signup" novalidate>
+            <div class="form-row">
+                <label>Фамилия *
+                    <input type="text" name="last_name" required minlength="2" maxlength="100" value="{{ form_values.last_name }}">
+                    {% if field_errors.last_name %}<span class="field-error">{{ field_errors.last_name }}</span>{% endif %}
+                </label>
+                <label>Имя *
+                    <input type="text" name="first_name" required minlength="2" maxlength="100" value="{{ form_values.first_name }}">
+                    {% if field_errors.first_name %}<span class="field-error">{{ field_errors.first_name }}</span>{% endif %}
+                </label>
+            </div>
+            <label>Отчество
+                <input type="text" name="patronymic" maxlength="100" value="{{ form_values.patronymic }}">
+                {% if field_errors.patronymic %}<span class="field-error">{{ field_errors.patronymic }}</span>{% endif %}
+            </label>
+            <label>Телефон (логин) *
+                <input type="tel" name="phone_number" required maxlength="18"
+                       placeholder="+7 (999) 123-45-67"
+                       value="{{ form_values.phone_number }}"
+                       class="js-phone-mask" autocomplete="tel">
+                {% if field_errors.phone_number %}<span class="field-error">{{ field_errors.phone_number }}</span>{% endif %}
+            </label>
+            <label>Email <span class="hint">name@mail.ru, до 40 символов</span>
+                <input type="text" name="email" maxlength="40" value="{{ form_values.email }}" placeholder="ivan@mail.ru" autocomplete="email" inputmode="email">
+                {% if field_errors.email %}<span class="field-error">{{ field_errors.email }}</span>{% endif %}
+            </label>
+            <label>Дата рождения *
+                <input type="date" name="birth_date" required max="{{ today_iso() }}" value="{{ form_values.birth_date }}">
+                {% if field_errors.birth_date %}<span class="field-error">{{ field_errors.birth_date }}</span>{% endif %}
+            </label>
+            <div class="form-row form-row-password">
+                <label class="password-field">
+                    <span class="label-text">Пароль *</span>
+                    <input type="password" name="password" required minlength="8" maxlength="128" autocomplete="new-password">
+                </label>
+                <label class="password-field">
+                    <span class="label-text">Повтор пароля *</span>
+                    <input type="password" name="password_confirm" required minlength="8" maxlength="128" autocomplete="new-password">
+                </label>
+            </div>
+            <p class="hint form-hint-center">Минимум 8 символов</p>
+            {% if field_errors.password %}<span class="field-error">{{ field_errors.password }}</span>{% endif %}
+            {% if field_errors.password_confirm %}<span class="field-error">{{ field_errors.password_confirm }}</span>{% endif %}
+            <button type="submit" class="btn btn-primary btn-lg">Зарегистрироваться</button>
+        </form>
+        <p class="hint-block">Уже есть аккаунт? <a href="/login">Войти</a></p>
+    </div>
+</section>
+{% endblock %}

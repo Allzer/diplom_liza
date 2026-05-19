@@ -24,6 +24,15 @@
                 <a href="/gallery" class="{% if page_title == 'Галерея' %}active{% endif %}">Галерея</a>
                 <a href="/reviews" class="{% if page_title == 'Отзывы' %}active{% endif %}">Отзывы</a>
                 <a href="/contacts" class="{% if page_title == 'Контакты' %}active{% endif %}">Контакты</a>
+                {% if current_user %}
+                <a href="/profile" class="{% if page_title == 'Мой профиль' %}active{% endif %}">Профиль</a>
+                <form method="post" action="/logout" class="nav-logout-form">
+                    <button type="submit" class="nav-link-btn">Выйти</button>
+                </form>
+                {% else %}
+                <a href="/login" class="{% if page_title == 'Вход' %}active{% endif %}">Вход</a>
+                <a href="/signup" class="{% if page_title == 'Регистрация' %}active{% endif %}">Регистрация</a>
+                {% endif %}
                 <a href="/register" class="btn btn-nav">Записаться</a>
             </nav>
         </div>

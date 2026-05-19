@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>Мой профиль</h1>
+        <p>{{ user.last_name }} {{ user.first_name }}{% if user.patronymic %} {{ user.patronymic }}{% endif %}</p>
+    </div>
+</section>
+
+{% if welcome %}
+<div class="container"><p class="alert alert-success">Регистрация прошла успешно. Добро пожаловать!</p></div>
+{% endif %}
+{% if registered %}
+<div class="container"><p class="alert alert-success">Заявка на секцию принята и отображается ниже.</p></div>
+{% endif %}
+{% if cancelled %}
+<div class="container"><p class="alert alert-success">Запись на тренировку отменена.</p></div>
+{% endif %}
+{% if form_error %}
+<div class="container"><p class="alert alert-error">{{ form_error }}</p></div>
+{% endif %}
+
+<section class="section">
+    <div class="container">
+        <div class="profile-user-card">
+            <h2 class="section-title">Данные аккаунта</h2>
+            <ul class="profile-info">
+                <li><strong>Телефон:</strong> {{ user.phone_number }}</li>
+                {% if user.email %}<li><strong>Email:</strong> {{ user.email }}</li>{% endif %}
+                <li><strong>Дата рождения:</strong> {{ user.birth_date }}</li>
+            </ul>
+            <form method="post" action="/logout" class="logout-form">
+                <button type="submit" class="btn btn-outline btn-sm">Выйти</button>
+            </form>
+        </div>
+
+        <h2 class="section-title">Мои записи на тренировки</h2>
+        {% if registrations %}
+        <div class="registrations-list">
+            {% for reg in registrations %}
+            <article class="registration-card">
+                <div class="registration-header">
+                    <h3>{{ reg.section.title if reg.section else 'Секция #' ~ reg.section_id }}</h3>
+                    <span class="status-badge status-{{ reg.status }}">
+                        {% if reg.status == 'new' %}Новая
+                        {% elif reg.status == 'confirmed' %}Подтверждена
+                        {% elif reg.status == 'cancelled' %}Отменена
+                        {% else %}{{ reg.status }}{% endif %}
+                    </span>
+                </div>
+                {% if reg.section %}
+                <ul class="card-meta">
+                    <li><strong>Расписание:</strong> {{ reg.section.schedule }}</li>
+                    <li><strong>Тренер:</strong> {{ reg.section.trainer }}</li>
+                    <li><strong>Стоимость:</strong> {{ reg.section.price }}</li>
+                </ul>
+                {% endif %}
+                <p class="registration-meta">Заявка от {{ reg.created_at }}</p>
+                {% if reg.comment %}
+                <p class="registration-comment"><strong>Пожелание:</strong> {{ reg.comment }}</p>
+                {% endif %}
+                <form class="registration-cancel-form" method="post"
+                      action="/profile/registrations/{{ reg.id }}/cancel"
+                      onsubmit="return confirm('Отменить запись на эту тренировку?');">
+                    <button type="submit" class="btn btn-outline btn-sm btn-danger">Отменить запись</button>
+                </form>
+            </article>
+            {% endfor %}
+        </div>
+        <p class="hint-block"><a href="/register" class="btn btn-primary btn-sm">Записаться в ещё одну секцию</a></p>
+        {% else %}
+        <p class="empty-msg">У вас пока нет записей. <a href="/register">Запишитесь в секцию</a>.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

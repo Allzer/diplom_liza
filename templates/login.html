@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>Вход</h1>
+        <p>Логин — номер телефона, пароль — ваш пароль</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container auth-page">
+        {% if form_error %}
+        <p class="alert alert-error">{{ form_error }}</p>
+        {% endif %}
+        <form class="form-card" method="post" action="/login">
+            <input type="hidden" name="next" value="{{ next }}">
+            <label>Телефон (логин) *
+                <input type="tel" name="phone_number" required maxlength="18"
+                       placeholder="+7 (999) 123-45-67"
+                       value="{{ form_values.phone_number }}"
+                       class="js-phone-mask" autocomplete="tel">
+                {% if field_errors.phone_number %}<span class="field-error">{{ field_errors.phone_number }}</span>{% endif %}
+            </label>
+            <label>Пароль *
+                <input type="password" name="password" required minlength="8" maxlength="128" autocomplete="current-password">
+                {% if field_errors.password %}<span class="field-error">{{ field_errors.password }}</span>{% endif %}
+            </label>
+            <button type="submit" class="btn btn-primary btn-lg">Войти</button>
+        </form>
+        <p class="hint-block">Нет аккаунта? <a href="/signup">Зарегистрируйтесь</a></p>
+    </div>
+</section>
+{% endblock %}

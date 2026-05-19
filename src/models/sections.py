@@ -36,6 +36,7 @@ class SectionRegistrationModel(Base):
     comment = Column(Text, nullable=True)
     status = Column(String(20), nullable=False, default='new')
     created_at = Column(String(30), nullable=False)
+    user_id = Column(Uuid, nullable=True)
 
     section = relationship('SportSectionModel', back_populates='registrations')
 
